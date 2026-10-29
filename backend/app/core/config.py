@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     SUPABASE_URL: str = ""
     SUPABASE_ANON_KEY: str = ""
     SUPABASE_SERVICE_ROLE_KEY: str = ""
+    SUPABASE_JWT_SECRET: str = "default-dev-secret-do-not-use-in-production-12345678"
     SUPABASE_STORAGE_BUCKET: str = "documind-documents"
     DATABASE_URL: str = ""
 
