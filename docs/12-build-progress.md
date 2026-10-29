@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
 **Last updated:** 2026-10-30  
-**Current phase:** P02 — Development environment  
-**Overall status:** P00 and P01 Complete (Scope frozen, Git initialized, full monorepo layout & conventions established)  
+**Current phase:** P03 — Database and storage  
+**Overall status:** P00, P01, P02 Complete (Environment configured, test suite active, CI established)  
 **Current blocker:** None  
-**Next single task:** Phase P02: setup development environment (virtual environment, install & verify backend dependencies, test runner execution).
+**Next single task:** Phase P03: define database schema (PostgreSQL + pgvector), migrations, storage buckets, and RLS policies.
 
 ## Phase status
 
@@ -13,9 +13,9 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | Phase | Status | Evidence / commit | Notes |
 |---|---|---|---|
 | P00 Scope freeze | Done | Commit `53e0dbc`, D-009 | Scope, limits, out-of-scope, and zero-budget constraint confirmed |
-| P01 Repository structure | Done | Backend + Frontend layout | Created `backend/` (FastAPI), `frontend/` (Next.js), `.env.example`, conventions |
-| P02 Development environment | In progress | — | Runtime/tooling and CI |
-| P03 Database and storage | Not started | — | Schema, policies, migrations |
+| P01 Repository structure | Done | Commit `0af72f0` | Created `backend/` (FastAPI), `frontend/` (Next.js), `.env.example`, conventions |
+| P02 Development environment | Done | Python 3.12 venv, tests passing | `pytest` runner active (2/2 passing), `.github/workflows/ci.yml` added |
+| P03 Database and storage | In progress | — | Schema, policies, migrations |
 | P04 Authentication | Not started | — | Server-side verification |
 | P05 Workspace CRUD | Not started | — | Ownership tests |
 | P06 Upload and validation | Not started | — | Private storage |
@@ -31,6 +31,15 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 3 — P02 Development Environment Completed (2026-10-30)
+- Configured Python 3.12 virtual environment at `backend/.venv`.
+- Installed base dependencies (`fastapi`, `uvicorn`, `pydantic-settings`, `pytest`, `httpx`).
+- Configured `backend/pytest.ini`.
+- Executed `pytest` successfully (`test_liveness`, `test_readiness` — 2 passed).
+- Added GitHub Actions workflow `.github/workflows/ci.yml` for automated test runs.
+- Updated `11-build-guide.md` and `12-build-progress.md`.
+- Next task: Phase P03 — Database schema and storage policies.
 
 ### Session 2 — P01 Repository Structure Completed (2026-10-30)
 - Created `backend/` structure: `app/core/config.py`, `app/api/v1/health.py`, `app/main.py`, `tests/test_health.py`, `requirements.txt`, `.env.example`, `README.md`.
