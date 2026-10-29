@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
 **Last updated:** 2026-10-30  
-**Current phase:** P01 — Repository structure  
-**Overall status:** P00 Complete (Scope frozen, Git initialized, conventions confirmed)  
+**Current phase:** P02 — Development environment  
+**Overall status:** P00 and P01 Complete (Scope frozen, Git initialized, full monorepo layout & conventions established)  
 **Current blocker:** None  
-**Next single task:** Implement Phase P01: initialize directory structure (frontend, backend, shared configs) and project conventions.
+**Next single task:** Phase P02: setup development environment (virtual environment, install & verify backend dependencies, test runner execution).
 
 ## Phase status
 
@@ -12,9 +12,9 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 
 | Phase | Status | Evidence / commit | Notes |
 |---|---|---|---|
-| P00 Scope freeze | Done | D-009 in `13-decisions.md` | Scope, limits, out-of-scope, and zero-budget constraint confirmed |
-| P01 Repository structure | In progress | — | Initializing layout for frontend & backend |
-| P02 Development environment | Not started | — | Runtime/tooling and CI |
+| P00 Scope freeze | Done | Commit `53e0dbc`, D-009 | Scope, limits, out-of-scope, and zero-budget constraint confirmed |
+| P01 Repository structure | Done | Backend + Frontend layout | Created `backend/` (FastAPI), `frontend/` (Next.js), `.env.example`, conventions |
+| P02 Development environment | In progress | — | Runtime/tooling and CI |
 | P03 Database and storage | Not started | — | Schema, policies, migrations |
 | P04 Authentication | Not started | — | Server-side verification |
 | P05 Workspace CRUD | Not started | — | Ownership tests |
@@ -31,6 +31,13 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 2 — P01 Repository Structure Completed (2026-10-30)
+- Created `backend/` structure: `app/core/config.py`, `app/api/v1/health.py`, `app/main.py`, `tests/test_health.py`, `requirements.txt`, `.env.example`, `README.md`.
+- Created `frontend/` structure: Next.js App Router scaffold (`src/app/page.tsx`, `layout.tsx`, `types/index.ts`, `package.json`, `tsconfig.json`, `.env.example`, `README.md`).
+- Created root `.env.example` and `docs/19-project-conventions.md`.
+- Updated `11-build-guide.md` and `12-build-progress.md`.
+- Next task: Phase P02 — setup Python 3.12 venv, install backend dependencies, and run tests.
 
 ### Session 1 — P00 Scope freeze completed & Git initialized (2026-10-30)
 - Initialized Git version control repository.
