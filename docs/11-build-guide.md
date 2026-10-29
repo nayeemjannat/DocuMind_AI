@@ -8,7 +8,7 @@ Complete one phase at a time. Do not ask an AI coding agent to build the whole a
 
 - [x] **P00 — Scope freeze:** confirm MVP, limits, out-of-scope items, stack, and unresolved decisions.
 - [x] **P01 — Repository structure:** create frontend/backend/docs structure and project conventions; no feature implementation yet.
-- [ ] **P02 — Development environment:** pin supported runtime versions, dependency management, formatting/linting, test runners, and basic CI.
+- [x] **P02 — Development environment:** pin supported runtime versions, dependency management, formatting/linting, test runners, and basic CI.
 - [ ] **P03 — Database and storage:** define migrations, core tables, indexes, RLS/storage policies, and test ownership isolation.
 - [ ] **P04 — Authentication:** integrate managed auth and server-side token verification; test invalid/expired sessions.
 - [ ] **P05 — Workspace CRUD:** create/list/view/update/delete owned workspaces; test cross-user denial.
