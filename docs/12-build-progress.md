@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
 **Last updated:** 2026-10-30  
-**Current phase:** P04 — Authentication  
-**Overall status:** P00, P01, P02, P03 Complete (Database schema, vector index, storage policies, SQLAlchemy models, and unit tests passing)  
+**Current phase:** P05 — Workspace CRUD  
+**Overall status:** P00, P01, P02, P03, P04 Complete (Authentication & token verification verified with 12/12 unit tests passing)  
 **Current blocker:** None  
-**Next single task:** Phase P04: implement managed auth token verification (Supabase JWT / JWKS), current user dependency, and security tests.
+**Next single task:** Phase P05: implement workspace CRUD API routes, ownership enforcement, and cross-user denial tests.
 
 ## Phase status
 
@@ -15,9 +15,9 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P00 Scope freeze | Done | Commit `53e0dbc`, D-009 | Scope, limits, out-of-scope, and zero-budget constraint confirmed |
 | P01 Repository structure | Done | Commit `0af72f0` | Created `backend/` (FastAPI), `frontend/` (Next.js), `.env.example`, conventions |
 | P02 Development environment | Done | Commit `f938319` | Python 3.12 venv, `pytest` runner active (2/2 passing), `.github/workflows/ci.yml` added |
-| P03 Database and storage | Done | Schema & models | `supabase/migrations/20261030000000_initial_schema.sql`, SQLAlchemy models, 7/7 tests passing |
-| P04 Authentication | In progress | — | Server-side verification |
-| P05 Workspace CRUD | Not started | — | Ownership tests |
+| P03 Database and storage | Done | Commit `5b356c5` | `supabase/migrations/20261030000000_initial_schema.sql`, SQLAlchemy models, 7/7 tests passing |
+| P04 Authentication | Done | `test_auth.py` passing | Server-side Supabase JWT verification (`HTTPBearer`), 12/12 tests passing |
+| P05 Workspace CRUD | In progress | — | Ownership tests |
 | P06 Upload and validation | Not started | — | Private storage |
 | P07 Durable ingestion jobs | Not started | — | DB-backed queue |
 | P08 Parsing and chunking | Not started | — | PDF/DOCX/TXT |
@@ -31,6 +31,22 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 5 — P04 Authentication Completed (2026-10-30)
+- Implemented `backend/app/core/security.py`:
+  - `AuthenticatedUser` model.
+  - `verify_token`: decodes Supabase JWT, validates expiration, subject UUID, and signature.
+  - `get_current_user`: FastAPI dependency using `HTTPBearer`.
+- Added `GET /api/v1/auth/me` route in `backend/app/api/v1/auth.py`.
+- Implemented automated security test suite in `backend/tests/test_auth.py`:
+  - Missing token -> 401 Unauthorized
+  - Invalid token -> 401 Unauthorized
+  - Untrusted secret token -> 401 Unauthorized
+  - Expired token -> 401 Unauthorized
+  - Valid token -> 200 OK with authenticated user context
+- All 12 test cases in the test suite passed.
+- Updated `11-build-guide.md` and `12-build-progress.md`.
+- Next task: Phase P05 — Workspace CRUD and ownership isolation tests.
 
 ### Session 4 — P03 Database and Storage Schema Completed (2026-10-30)
 - Created Supabase PostgreSQL migration (`supabase/migrations/20261030000000_initial_schema.sql`):
