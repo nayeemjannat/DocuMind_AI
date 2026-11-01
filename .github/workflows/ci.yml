@@ -21,7 +21,7 @@ jobs:
         run: |
           cd backend
           python -m pip install --upgrade pip
-          pip install fastapi uvicorn pydantic pydantic-settings pytest httpx
+          pip install fastapi uvicorn pydantic pydantic-settings pytest httpx sqlalchemy pgvector "pyjwt[crypto]"
 
       - name: Run backend tests
         run: |
