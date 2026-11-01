@@ -12,5 +12,5 @@ async def liveness_probe() -> dict:
 @router.get("/health/ready")
 async def readiness_probe() -> dict:
     """Readiness probe indicating service can accept work."""
-    # In P03/P04, database/storage checks will be connected here
+    # Database and storage health checks will be evaluated here
     return {"status": "ready"}

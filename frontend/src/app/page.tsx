@@ -8,8 +8,8 @@ export default function HomePage() {
         Upload documents (PDF, DOCX, TXT) and ask questions with verified, evidence-grounded citations.
       </p>
       <div style={{ marginTop: '1.5rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
-        <h3>MVP Under Construction</h3>
-        <p>Phase P01 initialized: repository structure and conventions established.</p>
+        <h3>Document Search & Analysis</h3>
+        <p>Ask questions and get verified, citation-backed answers from your documents.</p>
       </div>
     </main>
   );
