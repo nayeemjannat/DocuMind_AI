@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
-**Last updated:** 2026-10-30  
-**Current phase:** P05 — Workspace CRUD  
-**Overall status:** P00, P01, P02, P03, P04 Complete (Authentication & token verification verified with 12/12 unit tests passing)  
+**Last updated:** 2026-11-02  
+**Current phase:** P06 — Upload and validation  
+**Overall status:** Phases P00 through P05 completed and verified  
 **Current blocker:** None  
-**Next single task:** Phase P05: implement workspace CRUD API routes, ownership enforcement, and cross-user denial tests.
+**Next single task:** Phase P06: implement private document upload, file validation (PDF/DOCX/TXT, 5MB cap), and document metadata storage.
 
 ## Phase status
 
@@ -12,13 +12,13 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 
 | Phase | Status | Evidence / commit | Notes |
 |---|---|---|---|
-| P00 Scope freeze | Done | Commit `53e0dbc`, D-009 | Scope, limits, out-of-scope, and zero-budget constraint confirmed |
-| P01 Repository structure | Done | Commit `0af72f0` | Created `backend/` (FastAPI), `frontend/` (Next.js), `.env.example`, conventions |
-| P02 Development environment | Done | Commit `f938319` | Python 3.12 venv, `pytest` runner active (2/2 passing), `.github/workflows/ci.yml` added |
-| P03 Database and storage | Done | Commit `5b356c5` | `supabase/migrations/20261030000000_initial_schema.sql`, SQLAlchemy models, 7/7 tests passing |
-| P04 Authentication | Done | `test_auth.py` passing | Server-side Supabase JWT verification (`HTTPBearer`), 12/12 tests passing |
-| P05 Workspace CRUD | In progress | — | Ownership tests |
-| P06 Upload and validation | Not started | — | Private storage |
+| P00 Scope freeze | Done | Initial setup | MVP scope, constraints, and architecture baseline confirmed |
+| P01 Repository structure | Done | Frontend/Backend scaffold | Project layout, conventions, and baseline configs established |
+| P02 Development environment | Done | Python 3.12 venv, CI | Pytest runner, environment config, and GitHub Actions CI workflow |
+| P03 Database and storage | Done | Schema & models | Initial migration, pgvector index, RLS policies, SQLAlchemy models |
+| P04 Authentication | Done | Auth tests passing | Server-side JWT token verification and user context dependency |
+| P05 Workspace CRUD | Done | Workspace tests passing | Workspace CRUD API endpoints with strict tenant isolation (17/17 tests passing) |
+| P06 Upload and validation | In progress | — | Private storage |
 | P07 Durable ingestion jobs | Not started | — | DB-backed queue |
 | P08 Parsing and chunking | Not started | — | PDF/DOCX/TXT |
 | P09 Embeddings and vector search | Not started | — | Resource gate |
@@ -32,7 +32,19 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 
 ## Session log
 
-### Session 5 — P04 Authentication Completed (2026-10-30)
+### Session 6 — Workspace CRUD and Multi-tenant Isolation (2026-11-02)
+- Added `backend/app/schemas/workspace.py` (WorkspaceCreate, WorkspaceUpdate, WorkspaceResponse).
+- Added `backend/app/services/workspace.py` with CRUD queries scoped to `owner_id`.
+- Added `backend/app/api/v1/workspaces.py` with standard REST endpoints:
+  - `POST /api/v1/workspaces`: create workspace
+  - `GET /api/v1/workspaces`: list user workspaces
+  - `GET /api/v1/workspaces/{id}`: get workspace details (404 on unowned)
+  - `PATCH /api/v1/workspaces/{id}`: update workspace name
+  - `DELETE /api/v1/workspaces/{id}`: cascade delete workspace
+- Added comprehensive integration tests in `backend/tests/test_workspaces.py`.
+- Verified cross-user isolation: User B cannot read, update, or delete User A's workspaces.
+- All 17 automated tests passing.
+- Next task: Document upload and format/size validation.
 - Implemented `backend/app/core/security.py`:
   - `AuthenticatedUser` model.
   - `verify_token`: decodes Supabase JWT, validates expiration, subject UUID, and signature.
