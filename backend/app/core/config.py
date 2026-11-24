@@ -45,6 +45,7 @@ class Settings(BaseSettings):
     MAX_DAILY_UPLOADS: int = 5
     MAX_DAILY_QUESTIONS: int = 20
     WORKER_POLL_INTERVAL_SECONDS: int = 5
+    ENABLE_INLINE_WORKER: bool = True
 
     model_config = SettingsConfigDict(
         env_file=".env",
