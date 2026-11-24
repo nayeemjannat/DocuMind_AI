@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
-**Last updated:** 2026-11-02  
-**Current phase:** P06 — Upload and validation  
-**Overall status:** Phases P00 through P05 completed and verified  
+**Last updated:** 2026-11-24  
+**Current phase:** P07 — Durable ingestion jobs  
+**Overall status:** Phases P00 through P06 completed and verified  
 **Current blocker:** None  
-**Next single task:** Phase P06: implement private document upload, file validation (PDF/DOCX/TXT, 5MB cap), and document metadata storage.
+**Next single task:** Phase P07: implement background ingestion worker loop, job claiming/leasing, retry scheduling, and stale job recovery.
 
 ## Phase status
 
@@ -18,8 +18,8 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P03 Database and storage | Done | Schema & models | Initial migration, pgvector index, RLS policies, SQLAlchemy models |
 | P04 Authentication | Done | Auth tests passing | Server-side JWT token verification and user context dependency |
 | P05 Workspace CRUD | Done | Workspace tests passing | Workspace CRUD API endpoints with strict tenant isolation (17/17 tests passing) |
-| P06 Upload and validation | In progress | — | Private storage |
-| P07 Durable ingestion jobs | Not started | — | DB-backed queue |
+| P06 Upload and validation | Done | Document tests passing | Private file upload, format/size validation, and metadata storage (22/22 tests passing) |
+| P07 Durable ingestion jobs | In progress | — | DB-backed queue |
 | P08 Parsing and chunking | Not started | — | PDF/DOCX/TXT |
 | P09 Embeddings and vector search | Not started | — | Resource gate |
 | P10 RAG answer generation | Not started | — | Grounding and citations |
@@ -31,6 +31,20 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 7 — Document Upload and Validation (2026-11-24)
+- Added `backend/app/schemas/document.py` (`DocumentResponse`, `DocumentUploadResponse`).
+- Added `backend/app/services/storage.py` private file storage handler.
+- Added `backend/app/services/document.py` with validation (PDF, DOCX, TXT only, 5 MB limit, safe filename sanitization) and queuing.
+- Added `backend/app/api/v1/documents.py` with REST endpoints:
+  - `POST /api/v1/workspaces/{workspace_id}/documents`: upload document and enqueue job
+  - `GET /api/v1/workspaces/{workspace_id}/documents`: list workspace documents
+  - `GET /api/v1/documents/{document_id}`: get document metadata
+  - `DELETE /api/v1/documents/{document_id}`: delete document and file
+- Added `backend/tests/conftest.py` with shared test database fixture.
+- Added `backend/tests/test_documents.py` verifying file type filtering, size caps, and cross-user isolation.
+- All 22 tests passing.
+- Next task: Ingestion job queue worker and lease recovery.
 
 ### Session 6 — Workspace CRUD and Multi-tenant Isolation (2026-11-02)
 - Added `backend/app/schemas/workspace.py` (WorkspaceCreate, WorkspaceUpdate, WorkspaceResponse).
