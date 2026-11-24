@@ -35,10 +35,10 @@ Only values safe for every visitor:
 
 ## Environment setup checklist
 
-- [ ] Create local environment file from the documented example.
-- [ ] Fill local-only values without committing the file.
-- [ ] Verify frontend public variables contain no secret.
-- [ ] Verify backend starts only with required configuration.
-- [ ] Verify health endpoints do not disclose secret values.
-- [ ] Verify repository ignore rules exclude secret files.
-- [ ] Verify deployment dashboard values match the documented provider setup.
+- [x] Create local environment file template (`backend/.env.example` and `frontend/.env.local.example`).
+- [x] Fill local-only values without committing `.env` or `.env.local`.
+- [x] Verify frontend public variables (`NEXT_PUBLIC_*`) contain no secret.
+- [x] Verify backend starts with default/configured settings via `app/core/config.py`.
+- [x] Verify health endpoints (`/api/v1/health/live`, `/api/v1/health/ready`) do not disclose secret values.
+- [x] Verify repository `.gitignore` excludes `.env` and `.env.local`.
+- [ ] Verify deployment dashboard values match the documented provider setup (completed during Gate D cloud deployment).

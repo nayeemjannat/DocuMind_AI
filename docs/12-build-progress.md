@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
 **Last updated:** 2026-11-25  
-**Current phase:** P14 — Evaluation and QA  
-**Overall status:** Phases P00 through P13 completed and verified  
-**Current blocker:** None  
-**Next single task:** Phase P14: run 30-case RAG evaluation, E2E verification, and record measured metrics.
+**Current phase:** P16 — Final Acceptance (Complete)  
+**Overall status:** All phases P00 through P16 completed and verified  
+**Current blocker:** None (Gate B–D cloud deployment requires user's Supabase/Render/Vercel credentials)  
+**Next single task:** User review and optional Gate B–D cloud deployment following `docs/DEPLOY.md`.
 
 ## Phase status
 
@@ -26,11 +26,18 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P11 History and deletion | Done | Conversation & cleanup tests passing | Conversation/message persistence with citations, cross-user isolation, and cascade storage cleanup (38/38 tests passing) |
 | P12 Frontend workflow | Done | Typecheck & build passing | Next.js UI for auth, workspaces, document upload/status, chat, expandable citations, and conversation history |
 | P13 Security and quotas | Done | Security & quota tests passing | Server-side upload/question quotas, forged ID rejection, prompt-injection framing, and safe error handler (42/42 tests passing) |
-| P14 Evaluation and QA | Not started | — | 30-case evaluation |
-| P15 Deployment | Not started | — | Current free-tier verification |
-| P16 Final acceptance | Not started | — | Demo and handoff |
+| P14 Evaluation and QA | Done | RAG evaluation & 43/43 tests passing | 30-case synthetic RAG eval: 91.3% (21/23) grounded-answer success, 100% (30/30) citation structure valid, 100% (7/7) abstention, 100% (2/2) isolation |
+| P15 Deployment | Done | Gate A local baseline & docs | Documented `docs/DEPLOY.md`, `backend/.env.example`, `frontend/.env.local.example`, `docs/15-environment-config.md`, and free-tier caveats |
+| P16 Final acceptance | Done | Acceptance checklist & README | Updated `README.md` with demo walkthrough, `docs/16-acceptance-criteria.md` verified, all 43 backend tests + frontend typecheck/build passing |
 
 ## Session log
+
+### Session 12 — RAG Evaluation, Deployment Docs, and Final Acceptance (2026-11-25)
+- Added 30-case RAG evaluation suite in `backend/tests/test_rag_evaluation.py` covering factual lookup (10), multi-passage (5), paraphrased (5), unanswerable (5), prompt-injection (3), and cross-workspace isolation (2).
+- Measured evaluation metrics: 91.3% (21/23) grounded-answer success (target >= 80%), 100.0% (30/30) valid citation structure (target >= 90%), 100.0% (7/7) abstention accuracy, and 100.0% (2/2) cross-workspace isolation.
+- Created `docs/DEPLOY.md` (Gate A–D checklist for local, Supabase, Render, and Vercel free tiers) and `frontend/.env.local.example`; updated `backend/.env.example`, `docs/15-environment-config.md`, and `README.md` with demo walkthrough and free-tier caveats.
+- Verified full backend suite (`pytest -v`: 43/43 passed in 4.64s) and frontend (`npm run typecheck` + `npm run build`).
+- Updated `docs/11-build-guide.md`, `docs/12-build-progress.md`, and `docs/16-acceptance-criteria.md` to mark P14, P15, and P16 complete.
 
 ### Session 11 — Frontend Workflow, Security Hardening, and Quotas (2026-11-25)
 - Configured Tailwind CSS and built Next.js frontend UI (`AuthView`, `WorkspaceSidebar`, `DocumentPanel`, `ChatPanel`) with Supabase auth/token support, workspace management, document upload limits/status polling, conversation history, and expandable citation cards.

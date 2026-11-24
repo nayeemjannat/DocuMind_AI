@@ -20,9 +20,9 @@ Complete one phase at a time. Do not ask an AI coding agent to build the whole a
 - [x] **P11 — History and deletion:** persist conversations/messages/citations; remove source and derived chunks safely.
 - [x] **P12 — Frontend workflow:** polished auth/workspace/upload/chat/citation/history/error states.
 - [x] **P13 — Security and quotas:** authorization matrix, rate limits, prompt-injection tests, secret/log review.
-- [ ] **P14 — Evaluation and QA:** unit/integration/E2E, 30-case RAG evaluation, record measured metrics.
-- [ ] **P15 — Free-tier deployment:** verify current limits, deploy, run smoke tests, document caveats.
-- [ ] **P16 — Final acceptance:** demo walkthrough, README/setup, screenshots if desired, known limitations, final progress update.
+- [x] **P14 — Evaluation and QA:** unit/integration/E2E, 30-case RAG evaluation, record measured metrics.
+- [x] **P15 — Free-tier deployment:** verify current limits, deploy, run smoke tests, document caveats.
+- [x] **P16 — Final acceptance:** demo walkthrough, README/setup, screenshots if desired, known limitations, final progress update.
 
 ## Phase exit rule
 

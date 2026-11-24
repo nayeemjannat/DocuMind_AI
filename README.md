@@ -98,13 +98,41 @@ DocuMind_AI/
 
 2. Configure environment:
    ```bash
-   cp .env.example .env.local
+   cp .env.local.example .env.local
    ```
 
 3. Start development server:
    ```bash
    npm run dev
    ```
+
+4. Typecheck and production build:
+   ```bash
+   npm run typecheck
+   npm run build
+   ```
+
+---
+
+## Demo Walkthrough
+
+1. Open `http://localhost:3000` and sign in via Supabase Auth (or paste a valid JWT bearer token in local dev).
+2. Create a workspace from the sidebar (e.g., `Q3 Financial Review`).
+3. Upload a PDF, DOCX, or TXT document (max 5 MB, up to 5 docs per workspace). Watch its status transition from `queued` → `processing` → `ready`.
+4. Ask a question grounded in the document. Expand the **Sources / Citations** cards below the answer to inspect the exact matching chunk and page number.
+5. Ask an unrelated question and confirm DocuMind AI responds with an insufficient-evidence abstention rather than hallucinating.
+6. Refresh or switch conversations in the sidebar to verify persisted history, or delete a document to verify its chunks are removed from search.
+
+---
+
+## Deployment & Free-Tier Caveats
+
+See [docs/DEPLOY.md](docs/DEPLOY.md) for the full Gate A–D deployment checklist (Supabase Free + Render Free + Vercel Hobby) and [docs/15-environment-config.md](docs/15-environment-config.md) for environment variable policies.
+
+Known free-tier caveats:
+- **Cold starts:** Free Python web hosts (e.g., Render Free) sleep after ~15 minutes of inactivity (~30s first-request delay).
+- **Embeddings:** Uses a deterministic 384-dimensional hash-based embedding baseline (`backend/app/services/embedding.py`) so it runs within 512 MB free-tier RAM without PyTorch overhead.
+- **LLM quota:** Uses Google Gemini API (`gemini-1.5-flash`) when `GEMINI_API_KEY` is configured, and falls back gracefully to a local grounded excerpt synthesizer if no key is set or free-tier quota is reached.
 
 ---
 
