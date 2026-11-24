@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
 **Last updated:** 2026-11-25  
-**Current phase:** P12 — Frontend workflow  
-**Overall status:** Phases P00 through P11 completed and verified  
+**Current phase:** P14 — Evaluation and QA  
+**Overall status:** Phases P00 through P13 completed and verified  
 **Current blocker:** None  
-**Next single task:** Phase P12: build frontend authentication, workspace, document upload, chat, citation, and conversation history workflow.
+**Next single task:** Phase P14: run 30-case RAG evaluation, E2E verification, and record measured metrics.
 
 ## Phase status
 
@@ -24,13 +24,21 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P09 Embeddings and vector search | Done | Vector search tests passing | 384-dimensional vector embeddings, cosine similarity search, authorized filters (34/34 tests passing) |
 | P10 RAG answer generation | Done | RAG tests passing | Evidence gate, grounded answer generation, citation validation, prompt injection protection |
 | P11 History and deletion | Done | Conversation & cleanup tests passing | Conversation/message persistence with citations, cross-user isolation, and cascade storage cleanup (38/38 tests passing) |
-| P12 Frontend workflow | In progress | — | Main UI journey |
-| P13 Security and quotas | Not started | — | Adversarial checks |
+| P12 Frontend workflow | Done | Typecheck & build passing | Next.js UI for auth, workspaces, document upload/status, chat, expandable citations, and conversation history |
+| P13 Security and quotas | Done | Security & quota tests passing | Server-side upload/question quotas, forged ID rejection, prompt-injection framing, and safe error handler (42/42 tests passing) |
 | P14 Evaluation and QA | Not started | — | 30-case evaluation |
 | P15 Deployment | Not started | — | Current free-tier verification |
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 11 — Frontend Workflow, Security Hardening, and Quotas (2026-11-25)
+- Configured Tailwind CSS and built Next.js frontend UI (`AuthView`, `WorkspaceSidebar`, `DocumentPanel`, `ChatPanel`) with Supabase auth/token support, workspace management, document upload limits/status polling, conversation history, and expandable citation cards.
+- Verified frontend with `npm run typecheck` and `npm run build`.
+- Added `backend/app/services/quota.py` enforcing `MAX_DOCS_PER_WORKSPACE`, `MAX_DAILY_UPLOADS`, and `MAX_DAILY_QUESTIONS` server-side.
+- Hardened `backend/app/services/llm.py` with untrusted excerpt framing and prompt-injection sanitization, plus safe global error handling in `backend/app/main.py`.
+- Added `backend/tests/test_security_quotas.py` covering quotas, rate limits, forged parent/child IDs, and prompt-injection protection (42/42 backend tests passing).
+- Next task: 30-case RAG evaluation and QA metrics.
 
 ### Session 10 — Conversation History and Cascade Deletion (2026-11-25)
 - Added conversation and message schemas (`ConversationCreate`, `ConversationUpdate`, `ConversationResponse`, `MessageResponse`) in `backend/app/schemas/chat.py`.

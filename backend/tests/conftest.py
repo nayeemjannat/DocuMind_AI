@@ -12,6 +12,7 @@ from app.models.document import Document
 from app.models.chunk import DocumentChunk
 from app.models.job import IngestionJob
 from app.models.chat import Conversation, Message
+from app.services import quota
 
 # Shared SQLite in-memory test database with StaticPool
 TEST_DATABASE_URL = "sqlite:///:memory:"
@@ -43,10 +44,12 @@ def override_get_db():
 @pytest.fixture(autouse=True)
 def db_session():
     """Create fresh tables before every test and drop them after."""
+    quota.reset_rate_limits()
     Base.metadata.create_all(test_engine, tables=TEST_TABLES)
     app.dependency_overrides[get_db] = override_get_db
     yield
     Base.metadata.drop_all(test_engine, tables=TEST_TABLES)
+    quota.reset_rate_limits()
 
 
 @pytest.fixture

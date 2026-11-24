@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.core.security import get_current_user, AuthenticatedUser
 from app.db.session import get_db
 from app.schemas.chat import QuestionRequest, AnswerResponse
-from app.services import rag as rag_service, conversation as conversation_service
+from app.services import rag as rag_service, conversation as conversation_service, quota
 
 router = APIRouter(tags=["chat"])
 
@@ -23,6 +23,9 @@ def ask_document_question(
 ) -> AnswerResponse:
     """Ask a question about workspace documents and receive an answer with source citations."""
     if data.conversation_id:
+        quota.check_and_record_question_quota(
+            db, owner_id=current_user.id, persisted_in_conversation=True
+        )
         result = conversation_service.post_conversation_message(
             db=db,
             owner_id=current_user.id,
@@ -38,6 +41,9 @@ def ask_document_question(
         _, answer_res = result
         return answer_res
 
+    quota.check_and_record_question_quota(
+        db, owner_id=current_user.id, persisted_in_conversation=False
+    )
     response = rag_service.answer_question(
         db=db,
         owner_id=current_user.id,

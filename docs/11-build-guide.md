@@ -18,8 +18,8 @@ Complete one phase at a time. Do not ask an AI coding agent to build the whole a
 - [x] **P09 — Embeddings and vector search:** resource gate, model decision, indexing, authorized retrieval filters.
 - [x] **P10 — RAG answer generation:** relevance gate, LLM adapter, evidence-only prompt, citation validation, abstention.
 - [x] **P11 — History and deletion:** persist conversations/messages/citations; remove source and derived chunks safely.
-- [ ] **P12 — Frontend workflow:** polished auth/workspace/upload/chat/citation/history/error states.
-- [ ] **P13 — Security and quotas:** authorization matrix, rate limits, prompt-injection tests, secret/log review.
+- [x] **P12 — Frontend workflow:** polished auth/workspace/upload/chat/citation/history/error states.
+- [x] **P13 — Security and quotas:** authorization matrix, rate limits, prompt-injection tests, secret/log review.
 - [ ] **P14 — Evaluation and QA:** unit/integration/E2E, 30-case RAG evaluation, record measured metrics.
 - [ ] **P15 — Free-tier deployment:** verify current limits, deploy, run smoke tests, document caveats.
 - [ ] **P16 — Final acceptance:** demo walkthrough, README/setup, screenshots if desired, known limitations, final progress update.

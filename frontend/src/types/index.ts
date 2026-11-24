@@ -15,7 +15,7 @@ export interface Workspace {
   updated_at: string;
 }
 
-export interface Document {
+export interface DocumentItem {
   id: string;
   workspace_id: string;
   owner_id: string;
@@ -30,6 +30,12 @@ export interface Document {
   updated_at: string;
 }
 
+export interface DocumentUploadResponse {
+  document: DocumentItem;
+  job_id: string;
+  message: string;
+}
+
 export interface Citation {
   chunk_id: string;
   document_id: string;
@@ -38,11 +44,31 @@ export interface Citation {
   excerpt: string;
 }
 
+export interface Conversation {
+  id: string;
+  workspace_id: string;
+  owner_id: string;
+  title?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Message {
   id: string;
   conversation_id: string;
-  sender_role: 'user' | 'assistant';
+  workspace_id: string;
+  owner_id: string;
+  role: 'user' | 'assistant' | 'system';
   content: string;
-  citations?: Citation[];
+  citations: Citation[];
   created_at: string;
+}
+
+export interface AnswerResponse {
+  question: string;
+  answer: string;
+  citations: Citation[];
+  has_sufficient_context: boolean;
+  conversation_id?: string | null;
+  message_id?: string | null;
 }

@@ -9,7 +9,7 @@ from app.core.config import settings
 from app.models.document import Document, DocumentStatus
 from app.models.job import IngestionJob, JobStatus
 from app.models.workspace import Workspace
-from app.services import storage
+from app.services import storage, quota
 
 # Allowed extensions and standard MIME types
 ALLOWED_EXTENSIONS = {".pdf", ".docx", ".txt"}
@@ -75,6 +75,9 @@ def upload_document(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Workspace not found or unauthorized.",
         )
+
+    # Enforce per-workspace and daily upload quotas
+    quota.check_upload_quota(db, owner_id=owner_id, workspace_id=workspace_id)
 
     # Validate file format and size
     clean_filename, mime_type = validate_file(

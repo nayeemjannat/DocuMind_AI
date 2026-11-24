@@ -48,6 +48,9 @@ pnpm-debug.log*
 # Next.js
 .next/
 out/
+next-env.d.ts
+*.tsbuildinfo
+!frontend/src/lib/
 
 # IDE / Editor
 .vscode/

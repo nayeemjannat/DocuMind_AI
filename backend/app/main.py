@@ -1,8 +1,12 @@
-from fastapi import FastAPI
+import logging
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.api.v1.router import api_router
 from app.core.config import settings
+
+logger = logging.getLogger(__name__)
 
 
 def create_application() -> FastAPI:
@@ -23,6 +27,14 @@ def create_application() -> FastAPI:
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
+        )
+
+    @app.exception_handler(Exception)
+    async def safe_unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+        logger.error("Unhandled error on %s %s: %s", request.method, request.url.path, type(exc).__name__)
+        return JSONResponse(
+            status_code=500,
+            content={"detail": {"code": "INTERNAL_ERROR", "message": "An unexpected error occurred."}},
         )
 
     # Include API router

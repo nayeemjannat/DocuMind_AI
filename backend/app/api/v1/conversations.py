@@ -13,7 +13,7 @@ from app.schemas.chat import (
     QuestionRequest,
     AnswerResponse,
 )
-from app.services import conversation as conversation_service
+from app.services import conversation as conversation_service, quota
 
 router = APIRouter(tags=["conversations"])
 
@@ -179,6 +179,9 @@ def post_conversation_message(
     db: Session = Depends(get_db),
 ) -> AnswerResponse:
     """Ask a question within a conversation and receive a grounded answer with citations."""
+    quota.check_and_record_question_quota(
+        db, owner_id=current_user.id, persisted_in_conversation=True
+    )
     result = conversation_service.post_conversation_message(
         db=db,
         owner_id=current_user.id,

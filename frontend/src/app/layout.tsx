@@ -1,4 +1,5 @@
 import React from 'react';
+import './globals.css';
 
 export const metadata = {
   title: 'DocuMind AI',
@@ -12,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
