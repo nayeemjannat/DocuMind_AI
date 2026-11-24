@@ -5,6 +5,7 @@ from sqlalchemy import select
 
 from app.models.workspace import Workspace
 from app.schemas.workspace import WorkspaceCreate, WorkspaceUpdate
+from app.services import storage
 
 
 def create_workspace(db: Session, owner_id: uuid.UUID, data: WorkspaceCreate) -> Workspace:
@@ -64,6 +65,13 @@ def delete_workspace(db: Session, owner_id: uuid.UUID, workspace_id: uuid.UUID) 
     workspace = get_workspace(db, owner_id, workspace_id)
     if not workspace:
         return False
+
+    # Clean up physical files for all documents in this workspace
+    for doc in workspace.documents:
+        try:
+            storage.delete_file(doc.storage_path)
+        except Exception:
+            pass
 
     db.delete(workspace)
     db.commit()

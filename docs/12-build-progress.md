@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
-**Last updated:** 2026-11-24  
-**Current phase:** P11 — History and deletion  
-**Overall status:** Phases P00 through P10 completed and verified  
+**Last updated:** 2026-11-25  
+**Current phase:** P12 — Frontend workflow  
+**Overall status:** Phases P00 through P11 completed and verified  
 **Current blocker:** None  
-**Next single task:** Phase P11: implement conversation history persistence, message logs with citation metadata, and cascade deletion policies.
+**Next single task:** Phase P12: build frontend authentication, workspace, document upload, chat, citation, and conversation history workflow.
 
 ## Phase status
 
@@ -23,14 +23,23 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P08 Parsing and chunking | Done | Ingestion tests passing | PDF/DOCX/TXT text extraction, intelligent text chunker, and database chunk persistence (31/31 tests passing) |
 | P09 Embeddings and vector search | Done | Vector search tests passing | 384-dimensional vector embeddings, cosine similarity search, authorized filters (34/34 tests passing) |
 | P10 RAG answer generation | Done | RAG tests passing | Evidence gate, grounded answer generation, citation validation, prompt injection protection |
-| P11 History and deletion | In progress | — | Cascade and cleanup |
-| P12 Frontend workflow | Not started | — | Main UI journey |
+| P11 History and deletion | Done | Conversation & cleanup tests passing | Conversation/message persistence with citations, cross-user isolation, and cascade storage cleanup (38/38 tests passing) |
+| P12 Frontend workflow | In progress | — | Main UI journey |
 | P13 Security and quotas | Not started | — | Adversarial checks |
 | P14 Evaluation and QA | Not started | — | 30-case evaluation |
 | P15 Deployment | Not started | — | Current free-tier verification |
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 10 — Conversation History and Cascade Deletion (2026-11-25)
+- Added conversation and message schemas (`ConversationCreate`, `ConversationUpdate`, `ConversationResponse`, `MessageResponse`) in `backend/app/schemas/chat.py`.
+- Added `backend/app/services/conversation.py` with conversation CRUD, chronological message persistence with JSON citation metadata, auto-titling, and RAG integration.
+- Added `backend/app/api/v1/conversations.py` endpoints for conversations and messages, plus optional `conversation_id` support in `POST /api/v1/workspaces/{workspace_id}/ask`.
+- Updated `backend/app/services/workspace.py` to clean up physical document files in storage upon workspace deletion.
+- Added `backend/tests/test_conversations.py` verifying CRUD, persisted citations, cross-user isolation, and document/conversation/workspace cascade deletion.
+- All 38 automated tests passing.
+- Next task: Frontend workflow (auth, workspaces, upload, chat, citations, history).
 
 ### Session 9 — Vector Embeddings and RAG Answer Generation (2026-11-24)
 - Added `backend/app/services/embedding.py` with 384-dim normalized vector embeddings and cosine similarity.

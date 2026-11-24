@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.core.security import get_current_user, AuthenticatedUser
 from app.db.session import get_db
 from app.schemas.chat import QuestionRequest, AnswerResponse
-from app.services import rag as rag_service
+from app.services import rag as rag_service, conversation as conversation_service
 
 router = APIRouter(tags=["chat"])
 
@@ -22,6 +22,22 @@ def ask_document_question(
     db: Session = Depends(get_db),
 ) -> AnswerResponse:
     """Ask a question about workspace documents and receive an answer with source citations."""
+    if data.conversation_id:
+        result = conversation_service.post_conversation_message(
+            db=db,
+            owner_id=current_user.id,
+            conversation_id=data.conversation_id,
+            question=data.question,
+            document_id=data.document_id,
+        )
+        if not result:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Conversation not found or unauthorized.",
+            )
+        _, answer_res = result
+        return answer_res
+
     response = rag_service.answer_question(
         db=db,
         owner_id=current_user.id,
