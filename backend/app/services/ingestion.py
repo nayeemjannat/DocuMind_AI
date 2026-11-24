@@ -5,7 +5,7 @@ from sqlalchemy import select
 from app.models.job import IngestionJob
 from app.models.document import Document
 from app.models.chunk import DocumentChunk
-from app.services import storage, parser, chunker, queue
+from app.services import storage, parser, chunker, queue, embedding as embedding_service
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,7 @@ def process_ingestion_job(db: Session, job: IngestionJob) -> bool:
 
         # Insert new chunks
         for item in chunks_data:
+            vec = embedding_service.get_embedding(item["content"])
             chunk = DocumentChunk(
                 document_id=document.id,
                 workspace_id=document.workspace_id,
@@ -51,7 +52,7 @@ def process_ingestion_job(db: Session, job: IngestionJob) -> bool:
                 content=item["content"],
                 page_number=item["page_number"],
                 metadata_=item["metadata"],
-                embedding=None,
+                embedding=vec,
             )
             db.add(chunk)
 

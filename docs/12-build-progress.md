@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
 **Last updated:** 2026-11-24  
-**Current phase:** P09 — Embeddings and vector search  
-**Overall status:** Phases P00 through P08 completed and verified  
+**Current phase:** P11 — History and deletion  
+**Overall status:** Phases P00 through P10 completed and verified  
 **Current blocker:** None  
-**Next single task:** Phase P09: implement embedding generation (sentence-transformers / local model), vector indexing, and authorized similarity retrieval.
+**Next single task:** Phase P11: implement conversation history persistence, message logs with citation metadata, and cascade deletion policies.
 
 ## Phase status
 
@@ -21,9 +21,9 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P06 Upload and validation | Done | Document tests passing | Private file upload, format/size validation, and metadata storage (22/22 tests passing) |
 | P07 Durable ingestion jobs | Done | Queue tests passing | DB-backed queue, lease claiming, retry logic, and stale lease recovery (26/26 tests passing) |
 | P08 Parsing and chunking | Done | Ingestion tests passing | PDF/DOCX/TXT text extraction, intelligent text chunker, and database chunk persistence (31/31 tests passing) |
-| P09 Embeddings and vector search | In progress | — | Resource gate |
-| P10 RAG answer generation | Not started | — | Grounding and citations |
-| P11 History and deletion | Not started | — | Cascade and cleanup |
+| P09 Embeddings and vector search | Done | Vector search tests passing | 384-dimensional vector embeddings, cosine similarity search, authorized filters (34/34 tests passing) |
+| P10 RAG answer generation | Done | RAG tests passing | Evidence gate, grounded answer generation, citation validation, prompt injection protection |
+| P11 History and deletion | In progress | — | Cascade and cleanup |
 | P12 Frontend workflow | Not started | — | Main UI journey |
 | P13 Security and quotas | Not started | — | Adversarial checks |
 | P14 Evaluation and QA | Not started | — | 30-case evaluation |
@@ -31,6 +31,16 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 9 — Vector Embeddings and RAG Answer Generation (2026-11-24)
+- Added `backend/app/services/embedding.py` with 384-dim normalized vector embeddings and cosine similarity.
+- Added `backend/app/services/retrieval.py` supporting both PostgreSQL `pgvector` native cosine distance and in-memory fallback.
+- Added `backend/app/services/llm.py` with grounded system prompt, Gemini API adapter, and strict evidence enforcement.
+- Added `backend/app/services/rag.py` with relevance threshold gate and citation mapping.
+- Added `backend/app/api/v1/chat.py` (`POST /api/v1/workspaces/{workspace_id}/ask`).
+- Added `backend/tests/test_rag.py` verifying evidence grounding, insufficient evidence abstention, and cross-user isolation.
+- All 34 automated tests passing.
+- Next task: Conversation history persistence and cascade cleanup.
 
 ### Session 8 — Ingestion Queue and Document Parsing (2026-11-24)
 - Added `backend/app/services/queue.py` with atomic job leasing, stale recovery, retry limits, and status queries.

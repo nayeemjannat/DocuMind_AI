@@ -15,8 +15,8 @@ Complete one phase at a time. Do not ask an AI coding agent to build the whole a
 - [x] **P06 — Upload and validation:** private file upload, format/size/quotas, document metadata, clear errors.
 - [x] **P07 — Durable ingestion jobs:** database-backed queue, claim/lease, retries, stale-job recovery, idempotency.
 - [x] **P08 — Parsing and chunking:** PDF/DOCX/TXT extraction, normalization, chunk IDs, parser tests.
-- [ ] **P09 — Embeddings and vector search:** resource gate, model decision, indexing, authorized retrieval filters.
-- [ ] **P10 — RAG answer generation:** relevance gate, LLM adapter, evidence-only prompt, citation validation, abstention.
+- [x] **P09 — Embeddings and vector search:** resource gate, model decision, indexing, authorized retrieval filters.
+- [x] **P10 — RAG answer generation:** relevance gate, LLM adapter, evidence-only prompt, citation validation, abstention.
 - [ ] **P11 — History and deletion:** persist conversations/messages/citations; remove source and derived chunks safely.
 - [ ] **P12 — Frontend workflow:** polished auth/workspace/upload/chat/citation/history/error states.
 - [ ] **P13 — Security and quotas:** authorization matrix, rate limits, prompt-injection tests, secret/log review.
