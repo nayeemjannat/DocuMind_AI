@@ -1,10 +1,10 @@
 # 12 — Build Progress Tracker
 
 **Last updated:** 2026-11-24  
-**Current phase:** P07 — Durable ingestion jobs  
-**Overall status:** Phases P00 through P06 completed and verified  
+**Current phase:** P09 — Embeddings and vector search  
+**Overall status:** Phases P00 through P08 completed and verified  
 **Current blocker:** None  
-**Next single task:** Phase P07: implement background ingestion worker loop, job claiming/leasing, retry scheduling, and stale job recovery.
+**Next single task:** Phase P09: implement embedding generation (sentence-transformers / local model), vector indexing, and authorized similarity retrieval.
 
 ## Phase status
 
@@ -19,9 +19,9 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P04 Authentication | Done | Auth tests passing | Server-side JWT token verification and user context dependency |
 | P05 Workspace CRUD | Done | Workspace tests passing | Workspace CRUD API endpoints with strict tenant isolation (17/17 tests passing) |
 | P06 Upload and validation | Done | Document tests passing | Private file upload, format/size validation, and metadata storage (22/22 tests passing) |
-| P07 Durable ingestion jobs | In progress | — | DB-backed queue |
-| P08 Parsing and chunking | Not started | — | PDF/DOCX/TXT |
-| P09 Embeddings and vector search | Not started | — | Resource gate |
+| P07 Durable ingestion jobs | Done | Queue tests passing | DB-backed queue, lease claiming, retry logic, and stale lease recovery (26/26 tests passing) |
+| P08 Parsing and chunking | Done | Ingestion tests passing | PDF/DOCX/TXT text extraction, intelligent text chunker, and database chunk persistence (31/31 tests passing) |
+| P09 Embeddings and vector search | In progress | — | Resource gate |
 | P10 RAG answer generation | Not started | — | Grounding and citations |
 | P11 History and deletion | Not started | — | Cascade and cleanup |
 | P12 Frontend workflow | Not started | — | Main UI journey |
@@ -31,6 +31,16 @@ Use only: `Not started`, `In progress`, `Blocked`, `Done`.
 | P16 Final acceptance | Not started | — | Demo and handoff |
 
 ## Session log
+
+### Session 8 — Ingestion Queue and Document Parsing (2026-11-24)
+- Added `backend/app/services/queue.py` with atomic job leasing, stale recovery, retry limits, and status queries.
+- Added `backend/app/schemas/job.py` and `backend/app/api/v1/jobs.py` (`GET /api/v1/jobs/{id}`).
+- Added `backend/app/services/parser.py` supporting PDF (`pypdf`), DOCX (`python-docx`), and TXT.
+- Added `backend/app/services/chunker.py` with natural sentence/word boundary chunking and overlap.
+- Added `backend/app/services/ingestion.py` executing full document processing and chunk persistence.
+- Added test suites in `backend/tests/test_queue.py` and `backend/tests/test_ingestion.py`.
+- All 31 automated tests passing.
+- Next task: Vector embeddings generation and similarity search.
 
 ### Session 7 — Document Upload and Validation (2026-11-24)
 - Added `backend/app/schemas/document.py` (`DocumentResponse`, `DocumentUploadResponse`).
